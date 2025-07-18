@@ -25,7 +25,146 @@
     cursor: none;
     }
 
+/* Essential Mobile Responsive CSS */
 
+/* 1. Add viewport meta tag to HTML head first:
+   <meta name="viewport" content="width=device-width, initial-scale=1.0"> */
+
+/* 2. Flexible Box Model */
+* {
+  box-sizing: border-box;
+}
+
+/* 3. Flexible Images and Media */
+img, video, embed, object {
+  max-width: 100%;
+  height: auto;
+}
+
+/* 4. Flexible Container */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* 5. Flexible Grid System */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -15px;
+}
+
+.col {
+  flex: 1;
+  padding: 0 15px;
+}
+
+/* 6. Typography Scaling */
+html {
+  font-size: 16px;
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.5rem; }
+p { font-size: 1rem; line-height: 1.6; }
+
+/* 7. Navigation - Mobile First */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-menu li {
+  margin-left: 2rem;
+}
+
+/* 8. Media Queries - Mobile First Approach */
+
+/* Small devices (phones) */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 15px;
+  }
+  
+  .row {
+    flex-direction: column;
+  }
+  
+  .col {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  
+  /* Typography adjustments */
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+  
+  /* Navigation - Mobile */
+  .nav-toggle {
+    display: block;
+  }
+  
+  .nav-menu {
+    position: fixed;
+    top: 70px;
+    left: -100%;
+    width: 100%;
+    height: calc(100vh - 70px);
+    background: #fff;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    transition: left 0.3s;
+  }
+  
+  .nav-menu.active {
+    left: 0;
+  }
+  
+  .nav-menu li {
+    margin: 1rem 0;
+  }
+}
+
+/* Medium devices (tablets) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .container {
+    padding: 0 30px;
+  }
+  
+  .col {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+/* Large devices (desktops) */
+@media (min-width: 1025px) {
+  .container {
+    padding: 0 40px;
+  }
+}
 
 
     .cursor {

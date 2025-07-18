@@ -74,7 +74,184 @@ window.onload = function () {
 
 
 
+// Mobile Responsive JavaScript
 
+// 1. Mobile Navigation Toggle
+function initMobileNav() {
+  const navToggle = document.querySelector('.nav-toggle');
+  const navMenu = document.querySelector('.nav-menu');
+  
+  if (navToggle && navMenu) {
+    navToggle.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+    });
+    
+    // Close menu when clicking on a link
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('active');
+      });
+    });
+  }
+}
+
+// 2. Responsive Image Loading
+function responsiveImages() {
+  const images = document.querySelectorAll('img[data-src]');
+  
+  const imageObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const img = entry.target;
+        img.src = img.dataset.src;
+        img.classList.remove('lazy');
+        imageObserver.unobserve(img);
+      }
+    });
+  });
+  
+  images.forEach(img => imageObserver.observe(img));
+}
+
+// 3. Viewport Detection
+function getViewport() {
+  return {
+    width: window.innerWidth,
+    height: window.innerHeight,
+    isMobile: window.innerWidth <= 768,
+    isTablet: window.innerWidth > 768 && window.innerWidth <= 1024,
+    isDesktop: window.innerWidth > 1024
+  };
+}
+
+// 4. Responsive Font Sizing
+function responsiveFontSize() {
+  const html = document.documentElement;
+  const viewport = getViewport();
+  
+  if (viewport.isMobile) {
+    html.style.fontSize = '14px';
+  } else if (viewport.isTablet) {
+    html.style.fontSize = '15px';
+  } else {
+    html.style.fontSize = '16px';
+  }
+}
+
+// 5. Touch Event Handling for Mobile
+function initTouchEvents() {
+  let touchStartX = 0;
+  let touchStartY = 0;
+  
+  document.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+  });
+  
+  document.addEventListener('touchend', (e) => {
+    const touchEndX = e.changedTouches[0].screenX;
+    const touchEndY = e.changedTouches[0].screenY;
+    
+    const deltaX = touchEndX - touchStartX;
+    const deltaY = touchEndY - touchStartY;
+    
+    // Swipe detection
+    if (Math.abs(deltaX) > 50 && Math.abs(deltaY) < 100) {
+      if (deltaX > 0) {
+        // Swipe right
+        document.dispatchEvent(new CustomEvent('swipeRight'));
+      } else {
+        // Swipe left
+        document.dispatchEvent(new CustomEvent('swipeLeft'));
+      }
+    }
+  });
+}
+
+// 6. Responsive Table Handler
+function responsiveTables() {
+  const tables = document.querySelectorAll('table');
+  
+  tables.forEach(table => {
+    if (getViewport().isMobile) {
+      table.classList.add('responsive-table');
+    } else {
+      table.classList.remove('responsive-table');
+    }
+  });
+}
+
+// 7. Orientation Change Handler
+function handleOrientationChange() {
+  window.addEventListener('orientationchange', () => {
+    setTimeout(() => {
+      responsiveFontSize();
+      responsiveTables();
+    }, 100);
+  });
+}
+
+// 8. Resize Handler with Debouncing
+function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+
+const debouncedResize = debounce(() => {
+  responsiveFontSize();
+  responsiveTables();
+}, 250);
+
+// 9. Initialize Everything
+function initResponsive() {
+  initMobileNav();
+  responsiveImages();
+  responsiveFontSize();
+  initTouchEvents();
+  responsiveTables();
+  handleOrientationChange();
+  
+  window.addEventListener('resize', debouncedResize);
+}
+
+// 10. DOM Content Loaded
+document.addEventListener('DOMContentLoaded', initResponsive);
+
+// 11. Utility Functions
+const ResponsiveUtils = {
+  // Check if device is mobile
+  isMobile: () => getViewport().isMobile,
+  
+  // Check if device is tablet
+  isTablet: () => getViewport().isTablet,
+  
+  // Check if device is desktop
+  isDesktop: () => getViewport().isDesktop,
+  
+  // Get current viewport dimensions
+  getViewportSize: () => getViewport(),
+  
+  // Add responsive class to element
+  addResponsiveClass: (element, mobileClass, tabletClass, desktopClass) => {
+    const viewport = getViewport();
+    element.classList.remove(mobileClass, tabletClass, desktopClass);
+    
+    if (viewport.isMobile) {
+      element.classList.add(mobileClass);
+    } else if (viewport.isTablet) {
+      element.classList.add(tabletClass);
+    } else {
+      element.classList.add(desktopClass);
+    }
+  }
+};
 
 
 
