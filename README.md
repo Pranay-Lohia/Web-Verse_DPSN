@@ -1,2 +1,5 @@
 # Web-Verse_DPSN
-Hola
+Claude - animations
+Font awesome -  icons
+Flaticon - icons
+firebase - auth system ///working on it

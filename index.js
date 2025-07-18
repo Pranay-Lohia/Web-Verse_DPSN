@@ -259,7 +259,7 @@ const ResponsiveUtils = {
 
 
 
-
+//cursor -train animation
 
 const cursor = document.getElementById("cursor");
 const cursorTrails = [];
