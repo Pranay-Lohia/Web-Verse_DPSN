@@ -112,7 +112,7 @@
       const password = document.getElementById('loginPassword').value
       try {
         await signInWithEmailAndPassword(auth, email, password)
-        alert('Login successful')
+        window.location.href = 'dashboard.html'
       } catch (err) {
         alert(err.message)
       }
