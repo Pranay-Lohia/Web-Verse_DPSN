@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BRAND - Beyond Imagination</title>
+    <title></title>
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap");
 
@@ -1163,7 +1163,7 @@
     <!-- Navigation -->
     <nav id="navbar">
       <div class="nav-container">
-        <div class="logo" data-text="BRAND">BRAND</div>
+        <!-- <div class="logo" data-text="BRAND">STARSCOPE</div> -->
         <ul class="nav-links">
           <li><a href="#home">Home</a></li>
           <li><a href="#features">Features</a></li>
@@ -1190,7 +1190,17 @@
 
       <div class="hero-content">
         <div class="hero-subtitle">The Future is Now</div>
-        <h1 data-text="BRAND">BRAND</h1>
+
+        <h1>
+          <a
+            href=""
+            class="typewrite"
+            data-period="2000"
+            data-type='[ "STARSCOPE,", "The Future of AI", "The Future of Innovation" ]'
+          >
+            <span class="wrap"></span>
+          </a>
+        </h1>
         <p class="hero-description">
           Beyond Excellence. Beyond Innovation. Beyond Imagination.<br />We
           don't just lead the industry – we create new realities.
@@ -1404,6 +1414,84 @@
           document.getElementById("loadingScreen").classList.add("hidden");
         }, 2000);
       });
+
+      ///////////////////
+      var TxtType = function (el, toRotate, period) {
+        this.toRotate = toRotate;
+        this.el = el;
+        this.loopNum = 0;
+        this.period = parseInt(period, 10) || 2000;
+        this.txt = "";
+        this.tick();
+        this.isDeleting = false;
+      };
+
+      TxtType.prototype.tick = function () {
+        var i = this.loopNum % this.toRotate.length;
+        var fullTxt = this.toRotate[i];
+
+        if (this.isDeleting) {
+          this.txt = fullTxt.substring(0, this.txt.length - 1);
+        } else {
+          this.txt = fullTxt.substring(0, this.txt.length + 1);
+        }
+
+        this.el.innerHTML = '<span class="wrap">' + this.txt + "</span>";
+
+        var that = this;
+        var delta = 200 - Math.random() * 100;
+
+        if (this.isDeleting) {
+          delta /= 2;
+        }
+
+        if (!this.isDeleting && this.txt === fullTxt) {
+          delta = this.period;
+          this.isDeleting = true;
+        } else if (this.isDeleting && this.txt === "") {
+          this.isDeleting = false;
+          this.loopNum++;
+          delta = 500;
+        }
+
+        setTimeout(function () {
+          that.tick();
+        }, delta);
+      };
+
+      window.onload = function () {
+        var elements = document.getElementsByClassName("typewrite");
+        for (var i = 0; i < elements.length; i++) {
+          var toRotate = elements[i].getAttribute("data-type");
+          var period = elements[i].getAttribute("data-period");
+          if (toRotate) {
+            new TxtType(elements[i], JSON.parse(toRotate), period);
+          }
+        }
+        // INJECT CSS
+        var css = document.createElement("style");
+        css.type = "text/css";
+        css.innerHTML = ".typewrite > .wrap { border-right: 0.08em solid #fff}";
+        document.body.appendChild(css);
+      };
+
+      ////////////////
+
+      //TYPEWRITER ANIMATION FOR LOGO
+      //   document.addEventListener("DOMContentLoaded", function () {
+      //     const logo = document.querySelector(".logo");
+      //     const text = logo.getAttribute("data-text");
+      //     let index = 0;
+
+      //     function typeWriter() {
+      //       if (index < text.length) {
+      //         logo.textContent += text.charAt(index);
+      //         index++;
+      //         setTimeout(typeWriter, 100);
+      //       }
+      //     }
+      //     typeWriter();
+      //   });
 
       // Custom Cursor
       const cursor = document.getElementById("cursor");
